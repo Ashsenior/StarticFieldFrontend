@@ -1,21 +1,8 @@
-/** @type {import('next').NextConfig} */
+const withPlugins = require('next-compose-plugins');
+const optimizedImages = require('next-optimized-images');
 
-module.exports = {
-  eslint: {
-    // Warning: This allows production builds to successfully complete even if
-    // your project has ESLint errors.
-    ignoreDuringBuilds: true,
-  },
-  reactStrictMode: true,
-  swcMinify: true,
-}
+const nextConfiguration = {
+  target: 'serverless', //will output independent pages that don't require a monolithic server. It's only compatible with next start or Serverless deployment platforms (like ZEIT Now) — you cannot use the custom server API.
+};
 
-const withBundleAnalyzer = require('@next/bundle-analyzer')({
-  enabled: process.env.ANALYZE === 'true'
-})
-
-module.exports = withBundleAnalyzer({
-  env: {
-      NEXT_PUBLIC_ENV: 'PRODUCTION', //your next configs goes here
-  },
-})
+module.exports = withPlugins([optimizedImages], nextConfiguration);
